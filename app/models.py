@@ -1,9 +1,10 @@
-from tortoise.models import Model
-from tortoise import fields
-from pydantic import BaseModel
+# flake8: noqa
 from datetime import datetime
 
+from pydantic import BaseModel
+from tortoise import fields
 from tortoise.contrib.pydantic import pydantic_model_creator
+from tortoise.models import Model
 
 
 class User(Model):
@@ -44,7 +45,5 @@ user_pydantic_out = pydantic_model_creator(User, name='UserOut', exclude=('passw
 business_pydantic = pydantic_model_creator(Business, name='Business')
 business_pydantic_in = pydantic_model_creator(Business, name='BusinessIn', exclude_readonly=True)
 
-
 product_pydantic = pydantic_model_creator(Product, name='Product')
 product_pydantic_in = pydantic_model_creator(Product, name='ProductIn', exclude=('discount_percent', 'id'))
-

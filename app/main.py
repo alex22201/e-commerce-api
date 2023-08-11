@@ -1,11 +1,6 @@
+from decouple import config
 from fastapi import FastAPI
 from tortoise.contrib.fastapi import register_tortoise
-from models import (
-    User,
-    Business,
-    Product
-)
-from decouple import config
 
 app = FastAPI()
 
