@@ -1,0 +1,42 @@
+default:
+  image: python:3.10
+
+stages:
+  - lint
+  - test
+  - deploy
+
+isort:
+  stage: lint
+  script:
+    - python --version
+    - pip install isort
+    - pip install isort[colors]
+    - pip install --upgrade pip
+    - isort . --diff --color --check-only
+  only:
+    - push
+
+flake8:
+  stage: lint
+  script:
+    - python --version
+    - pip install flake8
+    - pip install --upgrade pip
+    - flake8 . --exclude migrations
+  only:
+    - push
+
+test:
+  stage: test
+  script:
+    - echo python manage.py test
+  only:
+    - merge_requests
+
+deploy:
+  stage: deploy
+  script:
+    - echo "Deploying ..."
+  only:
+    - merge_requests
