@@ -1,14 +1,13 @@
 from typing import List, Optional, Type
 
+from auth import get_hashed_password
 from decouple import config
 from fastapi import FastAPI
+from models import (Business, User, business_pydantic, user_pydantic,
+                    user_pydantic_in)
 from tortoise import BaseDBAsyncClient
 from tortoise.contrib.fastapi import register_tortoise
 from tortoise.signals import post_save
-
-from auth import get_hashed_password
-from models import (Business, User, business_pydantic, user_pydantic,
-                    user_pydantic_in)
 
 app = FastAPI()
 
