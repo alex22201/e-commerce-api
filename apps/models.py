@@ -13,7 +13,7 @@ class User(Model):
     email: str = fields.CharField(max_length=255, null=False, unique=True)
     password: str = fields.CharField(max_length=100, null=False)
     is_verified: bool = fields.BooleanField(default=False)
-    join_data: datetime = fields.DatetimeField(default=datetime.utcnow)
+    join_date: datetime = fields.DatetimeField(default=datetime.utcnow)
 
 
 class Business(Model):
@@ -21,9 +21,9 @@ class Business(Model):
     name: str = fields.CharField(max_length=255, null=False, unique=True)
     city: str = fields.CharField(max_length=100, null=False, default='Unspecified')
     region: str = fields.CharField(max_length=100, null=False, default='Unspecified')
-    description: str = fields.TextField(null=True)
+    description: str = fields.TextField(null=False, default='Unspecified')
     logo: str = fields.CharField(max_length=255, null=False, default='default.jpg')
-    owner: int = fields.ForeignKeyField('models.User', related_name='Business')
+    owner: User = fields.ForeignKeyField('models.User', related_name='Business')
 
 
 class Product(Model):
@@ -39,7 +39,8 @@ class Product(Model):
 
 
 user_pydantic = pydantic_model_creator(User, name='User', exclude=('is_verified',))
-user_pydantic_in = pydantic_model_creator(User, name='UserIn', exclude_readonly=True)
+user_pydantic_in = pydantic_model_creator(User, name='UserIn', exclude_readonly=True,
+                                          exclude=('is_verified', 'join_date'))
 user_pydantic_out = pydantic_model_creator(User, name='UserOut', exclude=('password',))
 
 business_pydantic = pydantic_model_creator(Business, name='Business')
