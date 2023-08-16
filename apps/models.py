@@ -12,7 +12,7 @@ class User(Model):
     username: str = fields.CharField(max_length=20, null=False, unique=True)
     email: str = fields.CharField(max_length=255, null=False, unique=True)
     password: str = fields.CharField(max_length=100, null=False)
-    is_verified: bool = fields.BooleanField(default=False)
+    is_verified: bool = fields.BooleanField(default=True)
     join_date: datetime = fields.DatetimeField(default=datetime.utcnow)
 
 
