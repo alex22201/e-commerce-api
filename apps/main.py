@@ -1,16 +1,15 @@
 from typing import List, Optional, Type
 
 import jwt
+from auth import get_hashed_password, token_generator
 from decouple import config
 from fastapi import Depends, FastAPI, HTTPException, status
 from fastapi.security import OAuth2PasswordBearer, OAuth2PasswordRequestForm
+from models import (Business, User, business_pydantic, user_pydantic,
+                    user_pydantic_in)
 from tortoise import BaseDBAsyncClient
 from tortoise.contrib.fastapi import register_tortoise
 from tortoise.signals import post_save
-
-from auth import get_hashed_password, token_generator
-from models import (Business, User, business_pydantic, user_pydantic,
-                    user_pydantic_in)
 
 app = FastAPI()
 

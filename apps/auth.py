@@ -1,9 +1,8 @@
-from decouple import config
 import jwt
+from decouple import config
 from fastapi import HTTPException, status
-from passlib.context import CryptContext
-
 from models import User
+from passlib.context import CryptContext
 
 password_context = CryptContext(schemes=['bcrypt'], deprecated='auto')
 
