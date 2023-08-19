@@ -1,4 +1,4 @@
 from decouple import config
 
-DATABASE = config('DB_URL', cast=str)
+DATABASE_NAME = config('DATABASE_NAME', cast=str)
 ENVIRONMENT = config('ENVIRONMENT', cast=str)

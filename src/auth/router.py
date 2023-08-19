@@ -1,10 +1,13 @@
+from typing import List
 
 from fastapi import APIRouter, Depends
 from fastapi.security import OAuth2PasswordRequestForm
+from tortoise.signals import post_save
 
 from src.auth.auth import get_current_user, token_generator
 from src.auth.utils import get_hashed_password
-from src.models import Business, User, user_pydantic, user_pydantic_in
+from src.models import (Business, User, business_pydantic, user_pydantic,
+                        user_pydantic_in)
 
 router = APIRouter(
     prefix='/auth',
@@ -54,3 +57,20 @@ async def user_registration(user: user_pydantic_in) -> dict:
         'status': 'ok',
         'data': f'Hello {new_user.username}, thanks for join us!'
     }
+
+
+# signals
+@post_save(User)
+async def create_business(
+        sender: 'Type[User]',  # noqa
+        instance: User,
+        created: bool,
+        using_db: 'Optional[BaseDBAsyncClient]',  # noqa
+        update_fields: List[str]  # noqa
+) -> None:
+    if created:
+        business_obj: Business = await Business.create(
+            name=instance.username,
+            owner=instance
+        )
+        await business_pydantic.from_tortoise_orm(business_obj)
