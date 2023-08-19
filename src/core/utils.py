@@ -1,5 +1,4 @@
 import secrets
-import socket
 
 from fastapi import HTTPException, UploadFile, status
 from PIL import Image
@@ -16,7 +15,7 @@ def check_file_extension(extension: str):
         )
 
 
-async def process_uploaded_file(file: UploadFile, user, is_product=False, id=None):
+async def process_uploaded_file(file: UploadFile, user, is_product=False, product_id=None):
     filename = file.filename
     extension = filename.split('.')[-1].lower()
     check_file_extension(extension)
@@ -35,7 +34,7 @@ async def process_uploaded_file(file: UploadFile, user, is_product=False, id=Non
     f.close()
 
     if is_product:
-        item = await Product.get(id=id)
+        item = await Product.get(id=product_id)
         related_item = await item.business
     else:
         item = await Business.get(owner=user)
@@ -57,8 +56,7 @@ async def process_uploaded_file(file: UploadFile, user, is_product=False, id=Non
 
     await item.save()
 
-    hostname = socket.gethostname()
-    file_url = hostname + generated_name[1:]
+    file_url = 'localhost:8000' + generated_name[1:]
     return {
         'status': 'ok',
         'filename': file_url

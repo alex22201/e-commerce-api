@@ -1,9 +1,10 @@
+
 from fastapi import APIRouter, Depends
 from fastapi.security import OAuth2PasswordRequestForm
 
 from src.auth.auth import get_current_user, token_generator
 from src.auth.utils import get_hashed_password
-from src.models import User, user_pydantic, user_pydantic_in
+from src.models import Business, User, user_pydantic, user_pydantic_in
 
 router = APIRouter(
     prefix='/auth',
@@ -16,7 +17,6 @@ router = APIRouter(
 async def generate_token(
         request_form: OAuth2PasswordRequestForm = Depends()
 ) -> dict:
-    print('ya tut')
     token = await token_generator(request_form.username, request_form.password)
     return {
         'access_token': token,
@@ -28,13 +28,18 @@ async def generate_token(
 async def user_login(
         user: user_pydantic_in = Depends(get_current_user)
 ) -> dict:
-    # business = await Business.get(owner=user)
+    business = await Business.get(owner=user)
+    logo = business.logo
+    logo_path = f'localhost:8000/static/images/{logo}'
     return {
         'status': 'ok',
-        'username': user.username,
-        'email': user.email,
-        'verified': user.is_verified,
-        'join_date': user.join_date.strftime('%b %d %Y')
+        'data': {
+            'username': user.username,
+            'email': user.email,
+            'verified': user.is_verified,
+            'join_date': user.join_date.strftime('%b %d %Y'),
+            'logo': logo_path
+        }
     }
 
 
