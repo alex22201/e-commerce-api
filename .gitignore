@@ -61,7 +61,7 @@ cover/
 *.sqlite3-shm
 *.sqlite3-wal
 *.sqlite3-journal
-staticfiles/
+/static/images/
 media/
 
 # Scrapy stuff:

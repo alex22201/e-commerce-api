@@ -1,7 +1,6 @@
 # flake8: noqa
 from datetime import datetime
 
-from pydantic import BaseModel
 from tortoise import fields
 from tortoise.contrib.pydantic import pydantic_model_creator
 from tortoise.models import Model
