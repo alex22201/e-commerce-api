@@ -9,8 +9,6 @@ install:
 	pip3 install pytest pytest-asyncio
 	# Basic requirements
 	pip3 install -r tools/requirements.txt
-	# Logs directory
-	#mkdir -p logs
 
 ## Runs flake8 on module, exit if critical rules are broken
 lint:
@@ -25,10 +23,6 @@ start:
 clean:
 	rm -rf .pytest_cache
 	find . | grep -E "(__pycache__|\.pyc|\.pyo)" | xargs rm -rf
-
-## Runs pytest
-test:
-	pytest tests -p no:logging -p no:warnings
 
 
 .PHONY: install lint package clean test
