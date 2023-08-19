@@ -6,7 +6,7 @@ install:
 	# Linting
 	pip3 install flake8 isort
 	# Testing
-	pip3 install pytest
+	pip3 install pytest pytest-asyncio
 	# Basic requirements
 	pip3 install -r tools/requirements.txt
 	# Logs directory
