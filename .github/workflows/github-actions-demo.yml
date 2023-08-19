@@ -28,7 +28,7 @@ jobs:
           python -m pip install flake8 isort[colors]
       - name: Lint with flake8
         run: |
-          flake8 . --exclude migrations
+          flake8 . --ignore=E501
       - name: Test with isort
         run: |
           isort . --diff --color --check-only
