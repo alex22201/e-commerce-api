@@ -66,7 +66,7 @@ async def delete_product(
         user: user_pydantic = Depends(get_current_user)
 ) -> dict:
     product = await Product.get(id=product_id)
-    business = product.business
+    business = await product.business
     owner = await business.owner
 
     if user == owner:
